@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CATHE'S HOTTEST</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+
+</head>
+<script language="javascript" type="text/javascript">
+ </script>
+<body>
+<!-- partial:index.partial.html -->
+<div id="header">
+	<h1><a>Vote Cathe's Hottest!</a></h1>
+	<h3><a href="/leader_board">[Leader Board]</a></h1>
+</div>
+<div id="main">
+	<h2>Who's Hotter? Click to Choose.</h2>
+	<table>
+	  <form action="/image1" method="post">
+		<tr>
+			<td><input type="image"  width="300" height="300" src="{{girl1_url}}"></td>
+		</form>
+			<td width="100">OR</td>
+		<form action="/image2" method="post">
+			<td><input type="image"  width="300" height="300" src="{{girl2_url}}"></td>
+		</tr>
+	  </form>
+		
+	</table>
+	<h3>(The Girl with the Highest Rating Will Be Crowned Prom Queen!)</h3>
+</div>
+
+</body>
+
+</html>

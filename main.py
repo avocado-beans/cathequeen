@@ -11,7 +11,7 @@ def index():
     if session.get('girl1_url') is None:
         session['girl1_url']=utl.pick_random_girl()
         session['girl2_url']=utl.pick_random_girl()
-    if session.get('switch_pics') is True:
+    if not session.get('girl1_url') is None:
         if session['switch_pics'] is True:
             if session['winner'] == 1:
                 print("GIRL1WON")

@@ -8,7 +8,7 @@ Session(app)
 
 @app.route('/', methods =["GET", "POST"])
 def index():
-    if session.get('switch_pics') is False:
+    if session.get('girl1_url') is None:
         session['girl1_url']=utl.pick_random_girl()
         session['girl2_url']=utl.pick_random_girl()
     if session.get('switch_pics') is True:

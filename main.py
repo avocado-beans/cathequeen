@@ -41,7 +41,7 @@ def image2():
 
 @app.route('/leader_board', methods =["GET", "POST"])
 def leader_board():
-    return render_template("leaderboard.html", length=len(utl.sorted_list()[0]), leader_board=utl.sorted_list()[0], scores=utl.sorted_list()[1], images=utl.sorted_list()[2])
+    return render_template("leaderboard.html", length=10, leader_board=utl.sorted_list()[0], scores=utl.sorted_list()[1], images=utl.sorted_list()[2])
     
 
     

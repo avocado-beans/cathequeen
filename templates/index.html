@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-  <title>CATHE COUPLES</title>
+  <title>KAIROS PROM QUEEN</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
 
 </head>
@@ -11,21 +11,24 @@
 <body>
 <!-- partial:index.partial.html -->
 <div id="header">
-	<h2><a>Cathe's Couple of the Week!</a></h2>
+	<h2><a>Vote Kairo's Prom Queen!</a></h2>
+	<h3><a href="/leader_board">[Leader Board]</a></h1>
 </div>
 <div id="main">
-	<h2>Mr. SnitchALot and Little Miss Wannabe Hacker!</h2>
+	<h2>Who's Hotter? Click to Choose.</h2>
 	<table>
-	  <form>
+	  <form action="/image1" method="post">
 		<tr>
-			<td><input type="image"  width="150" height="150" src="static/face1263.jpg"></td>
-			<td width="50">AND</td>
-			<td><input type="image"  width="150" height="150" src="static/face1262.jpg"></td>
+			<td><input type="image"  width="150" height="150" src="{{girl1_url}}"></td>
+		</form>
+			<td width="50">OR</td>
+		<form action="/image2" method="post">
+			<td><input type="image"  width="150" height="150" src="{{girl2_url}}"></td>
 		</tr>
 	  </form>
-	<h4>Voting will be back up in a few days!</h4>
 		
 	</table>
+	<h3>(The Girl with the Highest Rating Will Be Crowned Prom Queen!)</h3>
 </div>
 
 </body>

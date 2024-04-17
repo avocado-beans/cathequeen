@@ -38,7 +38,8 @@ def sorted_list():
     rating_list = []
     for rating in ratings:
         try:
-            rating_list.append(rating.split(":")[1])
+            if rating.split(":")[1] != '1400':
+                rating_list.append(rating.split(":")[1])
         except:
             pass
     

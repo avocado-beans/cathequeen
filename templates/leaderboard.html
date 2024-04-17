@@ -16,15 +16,14 @@
 	<h2>Leader Board</h2>
 	{%for i in range(1, length)%}
 	<table>
+		{% if scores[i] != '1400' %}
 		<tr>
 		  <td width="100">{{i}}</td>
+			
 			<td><input type="image"  width="100" height="100" src={{images[i]}}></td>
-			{% if scores[i] == '1400' %}
-			<td width="200">Not enough votes.</td>
-			{% else %}
 			<td width="200">Scored: {{scores[i]}}</td>
-			{% endif %}
 		</tr>
+		{% endif %}
 	</table>
   {%endfor%}
 	<h3>(The Girl with the Highest Rating Will Be Crowned Prom Queen!)</h3>

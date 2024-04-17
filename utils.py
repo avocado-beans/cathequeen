@@ -1,26 +1,35 @@
 import os
 import random
+import time
 directory = 'static/girls100/'
  
  
-def pick_random_girl(girllist=[], girl2url=None):
+def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer=3600):
     file_list = []
     for filename in os.listdir(directory):
         f = os.path.join(directory, filename)
         file_list.append(f)
     for girl in girllist:
-        file_list.remove(girl)
-    
+        if girl in file_list:
+            file_list.remove(girl)
+    clock = time.time()-time_since 
+    if clock < 3600:
+        print(time.time()-time_since, exclude)
+        for girl in exclude:
+            if girl in file_list:
+                file_list.remove(girl)
+    if clock >= 3600:
+        clock = -1
     if girl2url in file_list:
         file_list.remove(girl2url)
         
     print(len(file_list),"girls left")
-    if len(file_list) == 1:
+    if len(file_list) < 130:
         print('RAN OUT OF GIRLS')
-        return file_list[0]
+        return 'FINISHED', clock
         
     else:
-        return random.choice(file_list)
+        return random.choice(file_list), clock
     
 def sorted_list():
     leaderboard = open('ratings.txt', 'r')
@@ -43,7 +52,7 @@ def sorted_list():
                 sorted_names.append(rating.split(":")[0])
                 pictures.append(f"static/girls100/{rating.split(':')[0]}")
                 break
-        
+                
     return(sorted_names, rating_list, pictures)
     
     
@@ -59,7 +68,6 @@ def reset_ratings():
         leaderboard.write(f'{girl}:1400|')
     leaderboard.close()
     
-reset_ratings()
 def update_rating(girl_rating):
     leaderboard = open('ratings.txt', 'r')
     ratings = leaderboard.readlines()[0].split("|")

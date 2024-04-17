@@ -1,20 +1,26 @@
 import os
 import random
-directory = 'static/people/'
+directory = 'static/girls100/'
  
  
-def pick_random_girl():
+def pick_random_girl(girllist=[], girl2url=None):
     file_list = []
     for filename in os.listdir(directory):
         f = os.path.join(directory, filename)
         file_list.append(f)
+    for girl in girllist:
+        file_list.remove(girl)
     
-    girl = random.choice(file_list)
-    picture_list = []
-    for filename in os.listdir(girl):
-        f = os.path.join(girl, filename)
-        picture_list.append(f)
-    return random.choice(picture_list)
+    if girl2url in file_list:
+        file_list.remove(girl2url)
+        
+    print(len(file_list),"girls left")
+    if len(file_list) == 1:
+        print('RAN OUT OF GIRLS')
+        return file_list[0]
+        
+    else:
+        return random.choice(file_list)
     
 def sorted_list():
     leaderboard = open('ratings.txt', 'r')
@@ -35,17 +41,11 @@ def sorted_list():
         for rating in ratings:
             if rating.split(":")[1] == rate and not rating.split(":")[0] in sorted_names:
                 sorted_names.append(rating.split(":")[0])
-                pictures.append(pick_random_photo(f"static/people/{rating.split(':')[0]}"))
+                pictures.append(f"static/girls100/{rating.split(':')[0]}")
                 break
         
     return(sorted_names, rating_list, pictures)
     
-def pick_random_photo(url):
-    picture_list = []
-    for filename in os.listdir(url):
-        f = os.path.join(url, filename)
-        picture_list.append(f)
-    return random.choice(picture_list)
     
 def reset_ratings():
     file_list = []
@@ -55,7 +55,7 @@ def reset_ratings():
 
     leaderboard = open('ratings.txt', 'w')
     for girl in file_list:
-        girl = girl.split('people/')[1]
+        girl = girl.split('girls100/')[1]
         leaderboard.write(f'{girl}:1400|')
     leaderboard.close()
     
@@ -69,12 +69,15 @@ def update_rating(girl_rating):
             mega_string += girl_rating + "|"
         else:
             mega_string += rating + "|"
+    
+    mega_string = mega_string.split('||')[0]
     leaderboard.close()
     leaderboard = open('ratings.txt', 'w')
     leaderboard.write(mega_string)
     leaderboard.close()
     
 def update_ratings_P(girl1_url, girl2_url, Winner, K):
+    print("LINKS:", girl1_url, girl2_url)
     girl1_name = girl1_url.split('/')[2]
     girl1_score = rating(girl1_name)
     girl2_name = girl2_url.split('/')[2]

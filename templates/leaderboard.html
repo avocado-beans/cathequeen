@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
   <title>CATHE'S HOTTEST</title>
   <link rel="stylesheet" href="static/stylesheets/style.css">
 
@@ -10,7 +10,7 @@
 <!-- partial:index.partial.html -->
 <div id="header">
 	<h1><a>LEADER BOARD</a></h1>
-	<h3><a href="/">[Vote Cathe's Hottest!]</a></h1>
+	<h3><a href="/">[Vote Cathe's Prom Queen!]</a></h1>
 </div>
 <div id="main">
 	<h2>Leader Board</h2>
@@ -19,7 +19,11 @@
 		<tr>
 		  <td width="100">{{i}}</td>
 			<td><input type="image"  width="100" height="100" src={{images[i]}}></td>
-			<td width="200">Score: {{scores[i]}}</td>
+			{% if scores[i] == '1400' %}
+			<td width="200">Hasn't been rated yet.</td>
+			{% else %}
+			<td width="200">Scored: {{scores[i]}}</td>
+			{% endif %}
 		</tr>
 	</table>
   {%endfor%}

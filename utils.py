@@ -91,7 +91,7 @@ def update_ratings_P(girl1_url, girl2_url, Winner, K):
     girl1_score = rating(girl1_name)
     girl2_name = girl2_url.split('/')[2]
     girl2_score = rating(girl2_name)
-
+    
     try:
         girl1_Pscore, girl2_Pscore = update_ratings(girl1_score, girl2_score, Winner, K)
         girl1_tag = girl1_name+":"+str(girl1_Pscore)
@@ -99,7 +99,7 @@ def update_ratings_P(girl1_url, girl2_url, Winner, K):
     
         update_rating(girl1_tag)
         update_rating(girl2_tag)
-     except:
+    except:
         print("FAILED AT", girl1_url, girl2_url)
     
 def rating(girl):

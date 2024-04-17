@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from flask_session import Session
-
 from datetime import timedelta
+import time
 import utils as utl
 
 app = Flask(__name__)   
@@ -14,10 +14,12 @@ Session(app)
 def index():
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
-        session['girl1_url']=utl.pick_random_girl()
-        session['girl2_url']=utl.pick_random_girl([], session.get('girl1_url'))
-        session['girllist1'] =[]
-        session['girllist2'] =[]
+        session['girl1_url'], clock=utl.pick_random_girl()
+        session['girl2_url'], clock=utl.pick_random_girl([], session.get('girl1_url'))
+        session['girllist1']=[]
+        session['girllist2']=[]
+        session['exclude']=[]
+        session['time']=0
         print("BYE")
         
     if session.get('switch_pics') is True:
@@ -30,11 +32,16 @@ def index():
                 girllist = session.get('girllist2')
                 girllist.append(session.get('girl2_url'))
                 session['girllist2'] = girllist
-                randy = utl.pick_random_girl(session.get('girllist2'), session.get('girl1_url'))
-                if randy == session['girl2_url']:
-                    girlurl = session['girl1_url']
-                    return render_template("winner.html", girlurl)
+                randy, clock = utl.pick_random_girl(session.get('girllist2'), session.get('girl1_url'), session.get('time'), session.get('exclude'))
+                if clock==-1:
+                    session['exclude']=[]
+                    session['time']=0
+                if randy == 'FINISHED':
+                    print('tehe')
+                    session['crush'] = session['girl1_url']
+                    return redirect(url_for('crush'))
                 session['girl2_url']= randy
+                
             if session['winner'] == 2:
                 print("GIRL2WON")
                 session['girllist2'] = []
@@ -42,10 +49,14 @@ def index():
                 girllist = session.get('girllist1')
                 girllist.append(session.get('girl1_url'))
                 session['girllist1'] = girllist
-                randy = utl.pick_random_girl(session.get('girllist1'), session.get('girl2_url'))
-                if randy == session['girl1_url']:
-                    girlurl = session['girl2_url']
-                    return render_template("winner.html", girlurl)
+                randy, clock = utl.pick_random_girl(session.get('girllist1'), session.get('girl2_url'), session.get('time'), session.get('exclude'))
+                if clock==-1:
+                    session['exclude']=[]
+                    session['time']=0
+                if randy == 'FINISHED':
+                    print('tehe')
+                    session['crush'] = session['girl2_url']
+                    return redirect(url_for('crush'))
                 session['girl1_url']= randy
             session['switch_pics'] = False           
     
@@ -58,6 +69,20 @@ def image1():
         session['winner'] = 1
         return redirect(url_for('index'))
         
+@app.route('/your_crush', methods =["GET", "POST"])
+def crush():
+    if not session['crush'] in session.get('exclude'):
+        session['girl1_url'], clock=utl.pick_random_girl()
+        session['girl2_url'], clock=utl.pick_random_girl([], session.get('girl1_url'))
+        session['girllist1']=[]
+        session['girllist2']=[]
+        session['time']=time.time()
+        exclude=session['exclude']
+        exclude.append(session['crush'])
+        session['exclude'] = exclude
+    return render_template("winner.html", girlurl=session.get('crush'))
+    
+        
 @app.route('/image2', methods =["GET", "POST"])
 def image2():
     if request.method == "POST":
@@ -67,5 +92,5 @@ def image2():
 
 @app.route('/leader_board', methods =["GET", "POST"])
 def leader_board():
-    return render_template("leaderboard.html", length=len(utl.sorted_list()[0]), leader_board=utl.sorted_list()[0], scores=utl.sorted_list()[1], images=utl.sorted_list()[2])
-    
+    sorted = utl.sorted_list()
+    return render_template("leaderboard.html", length=len(sorted[0]), leader_board=sorted[0], scores=sorted[1], images=sorted[2])

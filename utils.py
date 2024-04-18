@@ -5,7 +5,6 @@ import requests
 import pymysql
 directory = 'static/girls100/'
  
-print("DING DING DING DING DING DING DING DING DING DING DING DING")
 def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer=3600):
     file_list = []
     for filename in os.listdir(directory):
@@ -147,20 +146,20 @@ def update(new_data, conn):
     finally:
         conn.close()
 
-def check_if_empty():
+def check_if_empty(conn):
     if len(sorted_list()[0]) == 0:
-        previous_ratings = parse()
+        previous_ratings = parse(conn)
         file = open('ratings.txt','w')
         file.writelines(previous_ratings)
         file.close()
 
-def save_to_cloud(start_at):
+def save_to_cloud(start_at, conn):
     if time.time()-start_at >= 60:
         print("STARTING RESET")
         file = open('ratings.txt','r')
-        old_data = parse()
+        old_data = parse(conn)
         new_data = file.readlines()
-        update(new_data)
+        update(new_data, conn)
         file.close()
         print("ENDED RESET")
         

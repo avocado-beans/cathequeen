@@ -125,7 +125,7 @@ def update_ratings(Ra, Rb, Winner, K):
     
 def check_if_empty():
     if len(sorted_list()[0]) == 0:
-        previous_ratings = requests.get('url/get')
+        previous_ratings = requests.get('https://worker-8fat.onrender.com/get')
         file = open('ratings.txt','w')
         file.writelines(file)
         file.close()
@@ -133,7 +133,7 @@ def check_if_empty():
 def save_to_cloud(start_at):
     if time.time()-start_at >= 900:
         file = open('ratings.txt','r')
-        current_ratings = requests.post(f'url/{file.readlines()}')
+        current_ratings = requests.post(f'https://worker-8fat.onrender.com/{file.readlines()}')
         file.close()
         
         return 'RESET'

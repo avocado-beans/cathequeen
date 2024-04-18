@@ -12,6 +12,9 @@ Session(app)
 
 @app.route('/', methods =["GET", "POST"])
 def index():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud() == 'RESET':
+            session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
         session['girl1_url'], clock=utl.pick_random_girl()
@@ -19,8 +22,9 @@ def index():
         session['girllist1']=[]
         session['girllist2']=[]
         session['exclude']=[]
+        session['start_at']=time.time()
         session['time']=0
-        print("BYE")
+        utl.check_if_empty()
         
     if session.get('switch_pics') is True:
         print(session.get('girl1_url'), session.get('girl2_url'))
@@ -64,6 +68,9 @@ def index():
     
 @app.route('/image1', methods =["GET", "POST"])
 def image1():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud() == 'RESET':
+            session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
         session['winner'] = 1
@@ -71,6 +78,9 @@ def image1():
         
 @app.route('/your_crush', methods =["GET", "POST"])
 def crush():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud() == 'RESET':
+            session['start_at']=time.time()
     if not session['crush'] in session.get('exclude'):
         session['girl1_url'], clock=utl.pick_random_girl()
         session['girl2_url'], clock=utl.pick_random_girl([], session.get('girl1_url'))
@@ -85,6 +95,9 @@ def crush():
         
 @app.route('/image2', methods =["GET", "POST"])
 def image2():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud() == 'RESET':
+            session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
         session['winner'] = 2
@@ -92,5 +105,15 @@ def image2():
 
 @app.route('/leader_board', methods =["GET", "POST"])
 def leader_board():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud() == 'RESET':
+            session['start_at']=time.time()
     sorted = utl.sorted_list()
     return render_template("leaderboard.html", length=len(sorted[0]), leader_board=sorted[0], scores=sorted[1], images=sorted[2])
+    
+@app.route("/get_total_scores", methods=["GET"])
+def get_total_scores():
+    file = open('ratings.txt','r')
+    ratings = file.readlines()
+    file.close()
+    return ratings

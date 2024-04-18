@@ -170,11 +170,13 @@ def check_if_empty():
 
 def save_to_cloud(start_at):
     if time.time()-start_at >= 60:
+        print("STARTING RESET")
         file = open('ratings.txt','r')
         old_data = parse()
         new_data = file.readlines()
         update(new_data)
         file.close()
+        print("ENDED RESET")
         
         return 'RESET'
     return 'HOLD'

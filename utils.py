@@ -126,6 +126,7 @@ def update_ratings(Ra, Rb, Winner, K):
 def check_if_empty():
     if len(sorted_list()[0]) == 0:
         previous_ratings = requests.get('https://worker-8fat.onrender.com/get')
+        previous_ratings = previous_ratings.text     
         file = open('ratings.txt','w')
         trash = ['"', "'", '[', ']']
         for t in trash:

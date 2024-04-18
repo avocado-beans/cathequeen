@@ -165,7 +165,7 @@ def check_if_empty():
     if len(sorted_list()[0]) == 0:
         previous_ratings = parse()
         file = open('ratings.txt','w')
-        file.writelines(file)
+        file.writelines(previous_ratings)
         file.close()
 
 def save_to_cloud(start_at):

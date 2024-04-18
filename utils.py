@@ -1,6 +1,7 @@
 import os
 import random
 import time
+import requests
 directory = 'static/girls100/'
  
  
@@ -14,6 +15,7 @@ def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer
             file_list.remove(girl)
     clock = time.time()-time_since 
     if clock < 3600:
+        print(time.time()-time_since, exclude)
         for girl in exclude:
             if girl in file_list:
                 file_list.remove(girl)
@@ -21,8 +23,10 @@ def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer
         clock = -1
     if girl2url in file_list:
         file_list.remove(girl2url)
-       
+        
+    print(len(file_list),"girls left")
     if len(file_list) < 130:
+        print('RAN OUT OF GIRLS')
         return 'FINISHED', clock
         
     else:
@@ -83,6 +87,7 @@ def update_rating(girl_rating):
     leaderboard.close()
     
 def update_ratings_P(girl1_url, girl2_url, Winner, K):
+    print("LINKS:", girl1_url, girl2_url)
     girl1_name = girl1_url.split('/')[2]
     girl1_score = rating(girl1_name)
     girl2_name = girl2_url.split('/')[2]
@@ -118,3 +123,18 @@ def update_ratings(Ra, Rb, Winner, K):
         Rb = Rb + K * (1 - Eb)
     return Ra, Rb
     
+def check_if_empty():
+    if len(sorted_list()[0]) == 0:
+        previous_ratings = requests.get('url/get')
+        file = open('ratings.txt','w')
+        file.writelines(file)
+        file.close()
+
+def save_to_cloud(start_at):
+    if time.time()-start_at >= 900:
+        file = open('ratings.txt','r')
+        current_ratings = requests.post(f'url/{file.readlines()}')
+        file.close()
+        
+        return 'RESET'
+    return 'HOLD'

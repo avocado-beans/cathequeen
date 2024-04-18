@@ -124,14 +124,7 @@ def update_ratings(Ra, Rb, Winner, K):
         Rb = Rb + K * (1 - Eb)
     return Ra, Rb
     
-def parse():
-    conn = pymysql.connect(
-    host='sql11.freesqldatabase.com',
-    user='sql11700114',
-    password='cAe4eMACLu',
-    db='sql11700114',
-    cursorclass=pymysql.cursors.DictCursor
-    )
+def parse(conn):
     try:
         with conn.cursor() as cursor:
             sql = "SELECT * FROM `girls`"
@@ -142,14 +135,7 @@ def parse():
     finally:
         conn.close()
 
-def update(new_data):
-    conn = pymysql.connect(
-    host='sql11.freesqldatabase.com',
-    user='sql11700114',
-    password='cAe4eMACLu',
-    db='sql11700114',
-    cursorclass=pymysql.cursors.DictCursor
-    )
+def update(new_data, conn):
     try:
         with conn.cursor() as cursor:
             sql = "DELETE FROM `girls`"

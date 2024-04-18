@@ -130,7 +130,7 @@ def check_if_empty():
         file = open('ratings.txt','w')
         trash = ['"', "'", '[', ']']
         for t in trash:
-            previous_ratings = previous_ratings.replace(i)
+            previous_ratings = previous_ratings.replace(t)
         file.writelines(previous_ratings.text[2:len(previous_ratings.text)-3])
         file.close()
 

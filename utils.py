@@ -125,6 +125,7 @@ def update_ratings(Ra, Rb, Winner, K):
     
 def parse(conn):
     try:
+        conn.ping() 
         with conn.cursor() as cursor:
             sql = "SELECT * FROM `girls`"
             cursor.execute(sql)
@@ -136,6 +137,7 @@ def parse(conn):
 
 def update(new_data, conn):
     try:
+        conn.ping() 
         with conn.cursor() as cursor:
             sql = "DELETE FROM `girls`"
             cursor.execute(sql)            

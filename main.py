@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, session, j
 from flask_session import Session
 from datetime import timedelta
 import time
+import requests
 import utils as utl
 
 app = Flask(__name__)   
@@ -14,6 +15,7 @@ Session(app)
 def index():
     if not session.get('start_at') is None:
         if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            requests.get("https://cathequeen.onrender.com")
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
@@ -70,6 +72,7 @@ def index():
 def image1():
     if not session.get('start_at') is None:
         if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            requests.get("https://cathequeen.onrender.com")
             session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
@@ -80,6 +83,7 @@ def image1():
 def image2():
     if not session.get('start_at') is None:
         if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            requests.get("https://cathequeen.onrender.com")
             session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
@@ -90,6 +94,7 @@ def image2():
 def leader_board():
     if not session.get('start_at') is None:
         if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            requests.get("https://cathequeen.onrender.com")
             session['start_at']=time.time()
     sorted = utl.sorted_list()
     return render_template("leaderboard.html", length=len(sorted[0]), leader_board=sorted[0], scores=sorted[1], images=sorted[2])
@@ -98,6 +103,7 @@ def leader_board():
 def crush():
     if not session.get('start_at') is None:
         if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            requests.get("https://cathequeen.onrender.com")
             session['start_at']=time.time()
     if not session['crush'] in session.get('exclude'):
         session['girl1_url'], clock=utl.pick_random_girl()

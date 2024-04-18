@@ -131,10 +131,10 @@ def check_if_empty():
         file.close()
 
 def save_to_cloud(start_at):
-    if time.time()-start_at >= 900:
+    if time.time()-start_at >= 60:
         file = open('ratings.txt','r')
         current_ratings = requests.post(f'https://worker-8fat.onrender.com/{file.readlines()}')
         file.close()
-        
+        print('RESETTING')
         return 'RESET'
     return 'HOLD'

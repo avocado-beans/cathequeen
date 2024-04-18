@@ -13,7 +13,7 @@ Session(app)
 @app.route('/', methods =["GET", "POST"])
 def index():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud() == 'RESET':
+        if utl.save_to_cloud(session.get('start_at')) == 'RESET':
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
@@ -69,17 +69,35 @@ def index():
 @app.route('/image1', methods =["GET", "POST"])
 def image1():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud() == 'RESET':
+        if utl.save_to_cloud(session.get('start_at')) == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
         session['winner'] = 1
         return redirect(url_for('index'))
         
+@app.route('/image2', methods =["GET", "POST"])
+def image2():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            session['start_at']=time.time()
+    if request.method == "POST":
+        session['switch_pics'] = True
+        session['winner'] = 2
+        return redirect(url_for('index'))
+
+@app.route('/leader_board', methods =["GET", "POST"])
+def leader_board():
+    if not session.get('start_at') is None:
+        if utl.save_to_cloud(session.get('start_at')) == 'RESET':
+            session['start_at']=time.time()
+    sorted = utl.sorted_list()
+    return render_template("leaderboard.html", length=len(sorted[0]), leader_board=sorted[0], scores=sorted[1], images=sorted[2])
+
 @app.route('/your_crush', methods =["GET", "POST"])
 def crush():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud() == 'RESET':
+        if utl.save_to_cloud(session.get('start_at')) == 'RESET':
             session['start_at']=time.time()
     if not session['crush'] in session.get('exclude'):
         session['girl1_url'], clock=utl.pick_random_girl()
@@ -91,25 +109,6 @@ def crush():
         exclude.append(session['crush'])
         session['exclude'] = exclude
     return render_template("winner.html", girlurl=session.get('crush'))
-    
-        
-@app.route('/image2', methods =["GET", "POST"])
-def image2():
-    if not session.get('start_at') is None:
-        if utl.save_to_cloud() == 'RESET':
-            session['start_at']=time.time()
-    if request.method == "POST":
-        session['switch_pics'] = True
-        session['winner'] = 2
-        return redirect(url_for('index'))
-
-@app.route('/leader_board', methods =["GET", "POST"])
-def leader_board():
-    if not session.get('start_at') is None:
-        if utl.save_to_cloud() == 'RESET':
-            session['start_at']=time.time()
-    sorted = utl.sorted_list()
-    return render_template("leaderboard.html", length=len(sorted[0]), leader_board=sorted[0], scores=sorted[1], images=sorted[2])
     
 @app.route("/get_total_scores", methods=["GET"])
 def get_total_scores():

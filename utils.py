@@ -127,6 +127,9 @@ def check_if_empty():
     if len(sorted_list()[0]) == 0:
         previous_ratings = requests.get('https://worker-8fat.onrender.com/get')
         file = open('ratings.txt','w')
+        trash = ['"', "'", '[', ']']
+        for t in trash:
+            previous_ratings = previous_ratings.replace(i)
         file.writelines(previous_ratings.text[2:len(previous_ratings.text)-3])
         file.close()
 

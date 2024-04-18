@@ -131,7 +131,7 @@ def check_if_empty():
         trash = ['"', "'", '[', ']']
         for t in trash:
             previous_ratings = previous_ratings.replace(t, "")
-        file.writelines(previous_ratings.text[2:len(previous_ratings.text)-3])
+        file.writelines(previous_ratings)
         file.close()
 
 def save_to_cloud(start_at):

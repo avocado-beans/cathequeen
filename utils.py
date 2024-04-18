@@ -132,7 +132,7 @@ def parse(conn):
             for row in rows:
                 return (row['data'])
     finally:
-        conn.close()
+        pass
 
 def update(new_data, conn):
     try:
@@ -144,7 +144,7 @@ def update(new_data, conn):
         conn.commit()
         print("Record updated successfully")
     finally:
-        conn.close()
+        pass
 
 def check_if_empty(conn):
     if len(sorted_list()[0]) == 0:

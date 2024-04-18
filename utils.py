@@ -2,6 +2,7 @@ import os
 import random
 import time
 import requests
+import pymysql
 directory = 'static/girls100/'
  
  
@@ -123,22 +124,57 @@ def update_ratings(Ra, Rb, Winner, K):
         Rb = Rb + K * (1 - Eb)
     return Ra, Rb
     
+def parse():
+    conn = pymysql.connect(
+    host='sql11.freesqldatabase.com',
+    user='sql11700114',
+    password='cAe4eMACLu',
+    db='sql11700114',
+    cursorclass=pymysql.cursors.DictCursor
+    )
+    try:
+        with conn.cursor() as cursor:
+            sql = "SELECT * FROM `girls`"
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            for row in rows:
+                return (row['data'])
+    finally:
+        conn.close()
+
+def update(new_data):
+    conn = pymysql.connect(
+    host='sql11.freesqldatabase.com',
+    user='sql11700114',
+    password='cAe4eMACLu',
+    db='sql11700114',
+    cursorclass=pymysql.cursors.DictCursor
+    )
+    try:
+        with conn.cursor() as cursor:
+            sql = "DELETE FROM `girls`"
+            cursor.execute(sql)            
+            sql = "INSERT INTO `girls` (`data`) VALUES (%s)"
+            cursor.execute(sql, (new_data))
+        conn.commit()
+        print("Record updated successfully")
+    finally:
+        conn.close()
+
 def check_if_empty():
     if len(sorted_list()[0]) == 0:
-        previous_ratings = requests.get('https://worker-8fat.onrender.com/get')
-        previous_ratings = previous_ratings.text     
+        previous_ratings = parse()
         file = open('ratings.txt','w')
-        trash = ['"', "'", '[', ']']
-        for t in trash:
-            previous_ratings = previous_ratings.replace(t, "")
-        file.writelines(previous_ratings)
+        file.writelines(file)
         file.close()
 
 def save_to_cloud(start_at):
     if time.time()-start_at >= 60:
         file = open('ratings.txt','r')
-        current_ratings = requests.post(f'https://worker-8fat.onrender.com/{file.readlines()}')
+        old_data = parse()
+        new_data = file.readlines()
+        update(new_data)
         file.close()
-        print('RESETTING')
+        
         return 'RESET'
     return 'HOLD'

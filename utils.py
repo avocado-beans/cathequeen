@@ -5,7 +5,7 @@ import requests
 import pymysql
 directory = 'static/girls100/'
  
- 
+print("DING DING DING DING DING DING DING DING DING DING DING DING")
 def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer=3600):
     file_list = []
     for filename in os.listdir(directory):

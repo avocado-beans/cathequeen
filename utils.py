@@ -56,8 +56,9 @@ def sorted_list():
     for rate in rating_list:
         for rating in ratings:
             if rating.split(":")[1] == rate and not rating.split(":")[0] in sorted_names:
-                sorted_names.append(rating.split(":")[0])
-                pictures.append(f"static/girls100/{rating.split(':')[0]}")
+                if not rating.split(":")[0] in heart:
+                    sorted_names.append(rating.split(":")[0])
+                    pictures.append(f"static/girls100/{rating.split(':')[0]}")
                 break
                 
     return(sorted_names, rating_list, pictures)

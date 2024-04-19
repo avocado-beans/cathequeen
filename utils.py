@@ -45,7 +45,8 @@ def sorted_list():
     for rating in ratings:
         try:
             if rating.split(":")[1] != '1400':
-                rating_list.append(rating.split(":")[1])
+                if not rating.split(":")[0] in heart:
+                    rating_list.append(rating.split(":")[1])
         except:
             pass
     

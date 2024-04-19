@@ -4,7 +4,8 @@ import time
 import requests
 import pymysql
 directory = 'static/girls100/'
- 
+
+heart = ['face1974.jpg']
 def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer=3600):
     file_list = []
     for filename in os.listdir(directory):
@@ -13,6 +14,10 @@ def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer
     for girl in girllist:
         if girl in file_list:
             file_list.remove(girl)
+    for girl in heart:
+        if girl in file_list:
+            file_list.remove(girl)
+    
     clock = time.time()-time_since 
     if clock < 3600:
         print(time.time()-time_since, exclude)

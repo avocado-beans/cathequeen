@@ -139,7 +139,7 @@ def parse(conn):
             rows = cursor.fetchall()
             for row in rows:
                 return (row['data'])
-    finally:
+    except:
         pass
 
 def update(new_data, conn):
@@ -152,7 +152,7 @@ def update(new_data, conn):
             cursor.execute(sql, (new_data))
         conn.commit()
         print("Record updated successfully")
-    finally:
+    except:
         pass
 
 def check_if_empty(conn):

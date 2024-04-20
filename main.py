@@ -23,7 +23,8 @@ conn = pymysql.connect(
 @app.route('/', methods =["GET", "POST"])
 def index():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud(session.get('start_at'), conn) == 'RESET':
+        cloud_stat, conn = utl.save_to_cloud(session.get('start_at'), conn)
+        if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
@@ -80,7 +81,8 @@ def index():
 @app.route('/image1', methods =["GET", "POST"])
 def image1():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud(session.get('start_at'), conn) == 'RESET':
+        cloud_stat, conn = utl.save_to_cloud(session.get('start_at'), conn)
+        if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
@@ -90,7 +92,8 @@ def image1():
 @app.route('/image2', methods =["GET", "POST"])
 def image2():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud(session.get('start_at'), conn) == 'RESET':
+        cloud_stat, conn = utl.save_to_cloud(session.get('start_at'), conn)
+        if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
         session['switch_pics'] = True
@@ -100,8 +103,8 @@ def image2():
 @app.route('/leader_board', methods =["GET", "POST"])
 def leader_board():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud(session.get('start_at'), conn) == 'RESET':
-            requests.get("https://cathequeen.onrender.com")
+        cloud_stat, conn = utl.save_to_cloud(session.get('start_at'), conn)
+        if cloud_stat == 'RESET':
             session['start_at']=time.time()
     sorted = utl.sorted_list()
     return render_template("leaderboard.html", length=len(sorted[0]), leader_board=sorted[0], scores=sorted[1], images=sorted[2])
@@ -109,7 +112,8 @@ def leader_board():
 @app.route('/your_crush', methods =["GET", "POST"])
 def crush():
     if not session.get('start_at') is None:
-        if utl.save_to_cloud(session.get('start_at'), conn) == 'RESET':
+        cloud_stat, conn = utl.save_to_cloud(session.get('start_at'), conn)
+        if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if not session['crush'] in session.get('exclude'):
         session['girl1_url'], clock=utl.pick_random_girl()

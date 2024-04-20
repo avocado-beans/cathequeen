@@ -171,6 +171,15 @@ def save_to_cloud(start_at, conn):
         update(new_data, conn)
         file.close()
         print("ENDED RESET")
+        if time.time()-start_at >= 840:
+            conn.close()
+            conn = pymysql.connect(
+                host='sql11.freesqldatabase.com',
+                user='sql11700114',
+                password='cAe4eMACLu',
+                db='sql11700114',
+                cursorclass=pymysql.cursors.DictCursor
+            )
         
-        return 'RESET'
-    return 'HOLD'
+        return 'RESET', conn
+    return 'HOLD', conn

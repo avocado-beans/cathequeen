@@ -28,6 +28,7 @@ def index():
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
+        cloud_stat, conn = utl.save_to_cloud(session.get('start_at'), conn)
         session['girl1_url'], clock=utl.pick_random_girl()
         session['girl2_url'], clock=utl.pick_random_girl([], session.get('girl1_url'))
         

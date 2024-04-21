@@ -11,13 +11,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
 Session(app)
-conn = pymysql.connect(
-        host='sql11.freesqldatabase.com',
-        user='sql11700114',
-        password='cAe4eMACLu',
-        db='sql11700114',
-        cursorclass=pymysql.cursors.DictCursor
-        )
+
 
 
 @app.route('/', methods =["GET", "POST"])
@@ -29,6 +23,13 @@ def index():
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
+        conn = pymysql.connect(
+        host='sql11.freesqldatabase.com',
+        user='sql11700114',
+        password='cAe4eMACLu',
+        db='sql11700114',
+        cursorclass=pymysql.cursors.DictCursor
+        )
         cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
         conn = conn2
         session['girl1_url'], clock=utl.pick_random_girl()

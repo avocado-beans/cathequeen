@@ -37,7 +37,7 @@ def index():
         session['exclude']=[]
         session['start_at']=time.time()
         session['time']=0
-        conn.close()
+        
         conn = pymysql.connect(
         host='sql11.freesqldatabase.com',
         user='sql11700114',

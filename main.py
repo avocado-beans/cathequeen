@@ -37,6 +37,14 @@ def index():
         session['exclude']=[]
         session['start_at']=time.time()
         session['time']=0
+        conn.close()
+        conn = pymysql.connect(
+        host='sql11.freesqldatabase.com',
+        user='sql11700114',
+        password='cAe4eMACLu',
+        db='sql11700114',
+        cursorclass=pymysql.cursors.DictCursor
+        )
         
         cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
         conn = conn2

@@ -22,8 +22,7 @@ conn = pymysql.connect(
 @app.route('/', methods =["GET", "POST"])
 def index():
     if not session.get('start_at') is None:
-        cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
-        conn = conn2
+        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
@@ -46,8 +45,7 @@ def index():
         cursorclass=pymysql.cursors.DictCursor
         )
         
-        cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
-        conn = conn2
+        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         utl.check_if_empty(conn)
         
     if session.get('switch_pics') is True:
@@ -93,8 +91,7 @@ def index():
 @app.route('/image1', methods =["GET", "POST"])
 def image1():
     if not session.get('start_at') is None:
-        cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
-        conn = conn2
+        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
@@ -105,8 +102,7 @@ def image1():
 @app.route('/image2', methods =["GET", "POST"])
 def image2():
     if not session.get('start_at') is None:
-        cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
-        conn = conn2
+        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
@@ -117,8 +113,7 @@ def image2():
 @app.route('/leader_board', methods =["GET", "POST"])
 def leader_board():
     if not session.get('start_at') is None:
-        cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
-        conn = conn2
+        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     sorted = utl.sorted_list()
@@ -127,8 +122,7 @@ def leader_board():
 @app.route('/your_crush', methods =["GET", "POST"])
 def crush():
     if not session.get('start_at') is None:
-        cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
-        conn = conn2
+        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if not session['crush'] in session.get('exclude'):

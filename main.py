@@ -23,6 +23,15 @@ def index():
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
         print("HELLO")
+        
+        session['girl1_url'], clock=utl.pick_random_girl()
+        session['girl2_url'], clock=utl.pick_random_girl([], session.get('girl1_url'))
+        
+        session['girllist1']=[]
+        session['girllist2']=[]
+        session['exclude']=[]
+        session['start_at']=time.time()
+        session['time']=0
         conn = pymysql.connect(
         host='sql11.freesqldatabase.com',
         user='sql11700114',
@@ -32,14 +41,6 @@ def index():
         )
         cloud_stat, conn2 = utl.save_to_cloud(session.get('start_at'), conn)
         conn = conn2
-        session['girl1_url'], clock=utl.pick_random_girl()
-        session['girl2_url'], clock=utl.pick_random_girl([], session.get('girl1_url'))
-        
-        session['girllist1']=[]
-        session['girllist2']=[]
-        session['exclude']=[]
-        session['start_at']=time.time()
-        session['time']=0
         utl.check_if_empty(conn)
         
     if session.get('switch_pics') is True:

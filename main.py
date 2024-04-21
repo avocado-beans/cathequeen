@@ -11,6 +11,13 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
 Session(app)
+conn = pymysql.connect(
+        host='sql11.freesqldatabase.com',
+        user='sql11700114',
+        password='cAe4eMACLu',
+        db='sql11700114',
+        cursorclass=pymysql.cursors.DictCursor
+        )
 
 @app.route('/', methods =["GET", "POST"])
 def index():
@@ -29,15 +36,6 @@ def index():
         session['exclude']=[]
         session['start_at']=time.time()
         session['time']=0
-
-        global conn
-        conn = pymysql.connect(
-        host='sql11.freesqldatabase.com',
-        user='sql11700114',
-        password='cAe4eMACLu',
-        db='sql11700114',
-        cursorclass=pymysql.cursors.DictCursor
-        )
         
         cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
         utl.check_if_empty(conn)

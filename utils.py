@@ -181,5 +181,5 @@ def save_to_cloud(start_at, conn):
                 cursorclass=pymysql.cursors.DictCursor
             )
         
-        return 'RESET', conn
-    return 'HOLD', conn
+        return 'RESET'
+    return 'HOLD'

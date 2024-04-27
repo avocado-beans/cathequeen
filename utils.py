@@ -133,12 +133,12 @@ def update_ratings(Ra, Rb, Winner, K):
     
 def parse():
     data = requests.get(url = url)
-    return(data.json()['data'])
+    return(data.json()['data'][0])
 
 def update(new_data):
     payload = {'data': new_data}
     data = requests.post(url = url, params=payload)
-    return(data.json()['data'])
+    return(data.json()['data'][0])
     
 def check_if_empty():
     if len(sorted_list()[0]) == 0:

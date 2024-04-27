@@ -2,8 +2,9 @@ import os
 import random
 import time
 import requests
-import pymysql
 directory = 'static/girls100/'
+
+pyanyurl = 'http://steviedvd.pythonanywhere.com/'
 
 heart = ['face1974.jpg']
 def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer=3600):
@@ -130,47 +131,29 @@ def update_ratings(Ra, Rb, Winner, K):
         Rb = Rb + K * (1 - Eb)
     return Ra, Rb
     
-def parse(conn):
-    try:
-        conn.ping() 
-        with conn.cursor() as cursor:
-            sql = "SELECT * FROM `girls`"
-            cursor.execute(sql)
-            rows = cursor.fetchall()
-            for row in rows:
-                return (row['data'])
-    except:
-        pass
+def parse():
+    data = requests.get(url = url)
+    return(data.json()['data'])
 
-def update(new_data, conn):
-    try:
-        conn.ping() 
-        with conn.cursor() as cursor:
-            sql = "DELETE FROM `girls`"
-            cursor.execute(sql)            
-            sql = "INSERT INTO `girls` (`data`) VALUES (%s)"
-            cursor.execute(sql, (new_data))
-        conn.commit()
-        print("Record updated successfully")
-    except:
-        pass
-
-def check_if_empty(conn):
+def update(new_data):
+    payload = {'data': new_data}
+    data = requests.post(url = url, params=payload)
+    return(data.json()['data'])
+    
+def check_if_empty():
     if len(sorted_list()[0]) == 0:
-        previous_ratings = parse(conn)
+        previous_ratings = parse()
         file = open('ratings.txt','w')
         file.writelines(previous_ratings)
         file.close()
 
 def save_to_cloud(start_at, conn):
     if time.time()-start_at >= 60:
-        print("STARTING RESET")
+        print('STARTING RESET . . . ')
         file = open('ratings.txt','r')
-        old_data = parse(conn)
         new_data = file.readlines()
-        update(new_data, conn)
+        update(new_data)
         file.close()
         print("ENDED RESET")
-        
         return 'RESET'
     return 'HOLD'

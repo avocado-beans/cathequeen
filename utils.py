@@ -31,7 +31,7 @@ def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer
         file_list.remove(girl2url)
         
     print(len(file_list),"girls left")
-    if len(file_list) < 150:
+    if len(file_list) < 160:
         print('RAN OUT OF GIRLS')
         return 'FINISHED', clock
         

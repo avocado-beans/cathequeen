@@ -3,7 +3,6 @@ from flask_session import Session
 from datetime import timedelta
 import time
 import requests
-import pymysql
 import utils as utl
 
 app = Flask(__name__)   
@@ -11,18 +10,11 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
 Session(app)
-conn = pymysql.connect(
-        host='sql11.freesqldatabase.com',
-        user='sql11700114',
-        password='cAe4eMACLu',
-        db='sql11700114',
-        cursorclass=pymysql.cursors.DictCursor
-        )
 
 @app.route('/', methods =["GET", "POST"])
 def index():
     if not session.get('start_at') is None:
-        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
+        cloud_stat = utl.save_to_cloud(session.get('start_at'))
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if session.get('girl1_url') is None and session.get('girl2_url') is None:
@@ -37,8 +29,8 @@ def index():
         session['start_at']=time.time()
         session['time']=0
         
-        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
-        utl.check_if_empty(conn)
+        cloud_stat = utl.save_to_cloud(session.get('start_at'))
+        utl.check_if_empty()
         
     if session.get('switch_pics') is True:
         print(session.get('girl1_url'), session.get('girl2_url'))
@@ -83,7 +75,7 @@ def index():
 @app.route('/image1', methods =["GET", "POST"])
 def image1():
     if not session.get('start_at') is None:
-        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
+        cloud_stat = utl.save_to_cloud(session.get('start_at'))
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
@@ -94,7 +86,7 @@ def image1():
 @app.route('/image2', methods =["GET", "POST"])
 def image2():
     if not session.get('start_at') is None:
-        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
+        cloud_stat = utl.save_to_cloud(session.get('start_at'))
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if request.method == "POST":
@@ -105,7 +97,7 @@ def image2():
 @app.route('/leader_board', methods =["GET", "POST"])
 def leader_board():
     if not session.get('start_at') is None:
-        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
+        cloud_stat = utl.save_to_cloud(session.get('start_at'))
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     sorted = utl.sorted_list()
@@ -114,7 +106,7 @@ def leader_board():
 @app.route('/your_crush', methods =["GET", "POST"])
 def crush():
     if not session.get('start_at') is None:
-        cloud_stat = utl.save_to_cloud(session.get('start_at'), conn)
+        cloud_stat = utl.save_to_cloud(session.get('start_at'))
         if cloud_stat == 'RESET':
             session['start_at']=time.time()
     if not session['crush'] in session.get('exclude'):

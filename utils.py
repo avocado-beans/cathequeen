@@ -147,7 +147,7 @@ def check_if_empty():
         file.writelines(previous_ratings)
         file.close()
 
-def save_to_cloud(start_at, conn):
+def save_to_cloud(start_at):
     if time.time()-start_at >= 60:
         print('STARTING RESET . . . ')
         file = open('ratings.txt','r')

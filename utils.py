@@ -6,7 +6,7 @@ directory = 'static/girls100/'
 
 pyanyurl = 'http://steviedvd.pythonanywhere.com/'
 
-heart = ['face817.jpg', 'face1072.jpg']
+heart = ['face817.jpg', 'face1072.jpg', 'face519.jpg', 'face1966.jpg']
 def pick_random_girl(girllist=[], girl2url=None, time_since=0, exclude=[], timer=3600):
     file_list = []
     for filename in os.listdir(directory):
